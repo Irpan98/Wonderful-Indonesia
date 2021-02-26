@@ -1,33 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="10dp"
-    android:orientation="vertical">
+    android:layout_marginHorizontal="@dimen/padding_layout"
+    android:layout_marginVertical="5dp"
+    android:elevation="20dp"
+    app:cardCornerRadius="12dp">
 
-    <ImageView
-        android:id="@+id/ivImage"
-        android:layout_width="match_parent"
-        android:layout_height="230dp"
-        android:layout_marginTop="10dp"
-        tools:scaleType="centerCrop"
-        tools:src="@drawable/img1" />
-
-    <TextView
-        android:background="#80000000"
-        android:id="@+id/tvTitle"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        tools:text="title here" />
+        android:orientation="vertical"
+        android:paddingBottom="10dp">
 
-    <TextView
-        android:id="@+id/tvSubTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="sub title here" />
+        <ImageView
+            android:id="@+id/ivImage"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:contentDescription="@string/image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:scaleType="centerCrop"
+            tools:src="@drawable/img1" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/tvTitle"
+            style="@style/ItemTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/padding_layout"
+            android:background="#80000000"
+            android:ellipsize="end"
+            android:lines="1"
+            android:padding="6dp"
+            app:layout_constraintBottom_toBottomOf="@id/ivImage"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Title Here" />
+
+        <TextView
+            android:id="@+id/tvSubTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/padding_layout"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:lines="2"
+            app:layout_constraintTop_toBottomOf="@+id/ivImage"
+            tools:text="sub title here" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginHorizontal="@dimen/padding_layout"
+            android:background="@color/colorGrey"
+            app:layout_constraintTop_toBottomOf="@id/tvSubTitle" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:src="@drawable/ic_favorite"
+            app:layout_constraintStart_toStartOf="@+id/tvSubTitle"
+            app:layout_constraintTop_toBottomOf="@+id/tvSubTitle" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

@@ -7,9 +7,15 @@
     tools:context=".home.HomeFragment">
 
     <TextView
+        style="@style/Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Wonderful Indonesia" />
+        android:paddingHorizontal="@dimen/padding_layout"
+        android:text="@string/app_name" />
+
+    <androidx.appcompat.widget.SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvHome"
