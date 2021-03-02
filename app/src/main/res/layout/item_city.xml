@@ -6,12 +6,22 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/padding_layout"
     android:layout_marginVertical="5dp"
-    android:elevation="20dp"
-    app:cardCornerRadius="12dp">
+    android:addStatesFromChildren="true"
+
+    android:background="@color/color2"
+    app:cardCornerRadius="2dp"
+    app:cardUseCompatPadding="true">
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:addStatesFromChildren="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:backgroundTint="#faf9f9"
+        android:clickable="true"
+        android:focusable="true"
         android:orientation="vertical"
         android:paddingBottom="10dp">
 
@@ -19,7 +29,9 @@
             android:id="@+id/ivImage"
             android:layout_width="match_parent"
             android:layout_height="230dp"
+            android:clickable="false"
             android:contentDescription="@string/image"
+            android:focusable="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -31,7 +43,7 @@
             style="@style/ItemTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/padding_layout"
+            android:layout_margin="@dimen/padding_layout"
             android:background="#80000000"
             android:ellipsize="end"
             android:lines="1"
@@ -44,27 +56,42 @@
             android:id="@+id/tvSubTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/padding_layout"
-            android:layout_marginTop="5dp"
+            android:layout_marginHorizontal="@dimen/padding_layout_2"
+            android:layout_marginTop="10dp"
             android:ellipsize="end"
             android:lines="2"
             app:layout_constraintTop_toBottomOf="@+id/ivImage"
-            tools:text="sub title here" />
+            tools:text="sub title here sub title here sub title here sub title here sub title here sub title here sub title here sub title here " />
 
         <View
             android:id="@+id/divider"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginHorizontal="@dimen/padding_layout"
-            android:background="@color/colorGrey"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="@dimen/padding_layout_2"
+            android:layout_marginTop="@dimen/padding_layout"
+            android:background="?android:attr/dividerVertical"
+            app:layout_constraintStart_toStartOf="@+id/tvSubTitle"
             app:layout_constraintTop_toBottomOf="@id/tvSubTitle" />
+
+        <ImageView
+            android:id="@+id/ivFavorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:contentDescription="@string/image"
+            android:src="@drawable/ic_favorite"
+            app:layout_constraintStart_toStartOf="@+id/tvSubTitle"
+            app:layout_constraintTop_toBottomOf="@+id/divider" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
             android:layout_marginVertical="10dp"
-            android:src="@drawable/ic_favorite"
-            app:layout_constraintStart_toStartOf="@+id/tvSubTitle"
-            app:layout_constraintTop_toBottomOf="@+id/tvSubTitle" />
+            android:contentDescription="@string/image"
+            android:src="@drawable/ic_share"
+            app:layout_constraintStart_toEndOf="@+id/ivFavorite"
+            app:layout_constraintTop_toBottomOf="@+id/divider"
+            app:tint="@color/black" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

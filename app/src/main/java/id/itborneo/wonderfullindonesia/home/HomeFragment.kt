@@ -5,11 +5,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import androidx.appcompat.widget.SearchView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import id.itborneo.wonderfullindonesia.MainActivity
 import id.itborneo.wonderfullindonesia.R
 import id.itborneo.wonderfullindonesia.data.CityModel
+import id.itborneo.wonderfullindonesia.data.DummyData
+import id.itborneo.wonderfullindonesia.data.EXTRA_CITY
 import id.itborneo.wonderfullindonesia.databinding.FragmentHomeBinding
+import id.itborneo.wonderfullindonesia.utils.BottomNavigationUtils
 
 
 class HomeFragment : Fragment() {
@@ -18,53 +27,50 @@ class HomeFragment : Fragment() {
     private val TAG = "HomeFragment"
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: HomeAdapter
-    private val cities = mutableListOf<CityModel>()
+    private var cities = mutableListOf<CityModel>()
+    private lateinit var navController: NavController
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         Log.d(TAG, "onViewCreated called")
+        initNavController(view)
         initListCity()
         initDummyData()
+        visibleBottomNav()
 
+        initializeSearchBar()
+
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+    }
+
+    private fun initNavController(view: View) {
+        navController = Navigation.findNavController(view)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     private fun initDummyData() {
-        cities.apply {
-            add(
-                CityModel(
-                    "Oro Oro Ombo, Indonesia",
-                    "Oro-oro Ombo adalah sebuah desa di wilayah Kecamatan Batu, Kota Batu, Provinsi Jawa Timur. Desa Oro-Oro Ombo merupakan sebuah desa yang berada di wilayah Kecamatan Batu Kota Batu, kurang lebih berjarak 2 km di sebelah selatan Kantor Camat Batu. Desa Oro-Oro Ombo terbagi dalam tiga perdukuhan, yakni Dusun Krajan Oro-Oro Ombo, Dusun Gondorejo, dan Dusun Dresel. Sedangkan untuk kelancaran dan kemudahan administrasi pemerintahan Desa Oro-oro Ombo terbagi dalam 13 Rukun Warga, yang tersebar pada tiga dusun. Dusun Krajan terdiri dari tujuh RW, sedangkan Dusun Dresel terdiri dari tiga RW, dan Dusun Gondorejo terdiri dari tiga RW.\n" +
-                            "Sebagai daerah yang berkedudukan di daerah dataran tinggi, Oro-Oro Ombo sangat menarik perhatian pihak pertelevisian dengan memilih wilayah Dresel sebagai tempat stasiun pemancar ulang (relay), hal ini terbukti dengan adanya + 11 stasiun pemancar ulang (relay) yang ada di wilayah Dusun Dresel Oro-oro Ombo.\n" +
-                            "Demikian juga dengan pariwisata, keindahan alam berupa air terjun Coban Rais dan luasnya bumi perkemahan Coban Rais tidak pernah sepi dikunjungi oleh orang-orang yang ingin lebih mendekatkan diri dengan alam. Ditambah lagi konsep hiburan rekreasi keluarga yang beroperasi pada malam hari, yakni BNS (Batu Night Specstacular), dan juga Museum Satwa-Jatim Park2 yang akan segera beroperasi awal tahun 2010, Desa Oro-Oro Ombo berpotensi untuk menjadi daerah pusat pariwisata yang dapat mensejahterakan penduduknya dengan tata kelola pemerintahan yang baik serta dukungan dan partisipasi aktif dari masyarakat desa sendiri.",
-                    R.drawable.img1
-                )
-            )
-        }
-        repeat(10) {
-            cities.apply {
-                add(
-                    CityModel(
-                        "Oro Oro Ombo, Indonesia",
-                        "Oro-oro Ombo adalah sebuah desa di wilayah Kecamatan Batu, Kota Batu, Provinsi Jawa Timur. Desa Oro-Oro Ombo merupakan sebuah desa yang berada di wilayah Kecamatan Batu Kota Batu, kurang lebih berjarak 2 km di sebelah selatan Kantor Camat Batu. Desa Oro-Oro Ombo terbagi dalam tiga perdukuhan, yakni Dusun Krajan Oro-Oro Ombo, Dusun Gondorejo, dan Dusun Dresel. Sedangkan untuk kelancaran dan kemudahan administrasi pemerintahan Desa Oro-oro Ombo terbagi dalam 13 Rukun Warga, yang tersebar pada tiga dusun. Dusun Krajan terdiri dari tujuh RW, sedangkan Dusun Dresel terdiri dari tiga RW, dan Dusun Gondorejo terdiri dari tiga RW.\n" +
-                                "Sebagai daerah yang berkedudukan di daerah dataran tinggi, Oro-Oro Ombo sangat menarik perhatian pihak pertelevisian dengan memilih wilayah Dresel sebagai tempat stasiun pemancar ulang (relay), hal ini terbukti dengan adanya + 11 stasiun pemancar ulang (relay) yang ada di wilayah Dusun Dresel Oro-oro Ombo.\n" +
-                                "Demikian juga dengan pariwisata, keindahan alam berupa air terjun Coban Rais dan luasnya bumi perkemahan Coban Rais tidak pernah sepi dikunjungi oleh orang-orang yang ingin lebih mendekatkan diri dengan alam. Ditambah lagi konsep hiburan rekreasi keluarga yang beroperasi pada malam hari, yakni BNS (Batu Night Specstacular), dan juga Museum Satwa-Jatim Park2 yang akan segera beroperasi awal tahun 2010, Desa Oro-Oro Ombo berpotensi untuk menjadi daerah pusat pariwisata yang dapat mensejahterakan penduduknya dengan tata kelola pemerintahan yang baik serta dukungan dan partisipasi aktif dari masyarakat desa sendiri.",
-                        R.drawable.img1
-                    )
-                )
-            }
-        }
+        cities.clear()
+        cities = DummyData()
 
-
+        cities.forEach {
+            it.isfavorite = MainActivity.prefs.pull(it.id, false)
+            Log.d(TAG, "isFavorite ${it.isfavorite}")
+        }
 
         adapter.set(cities)
     }
@@ -73,8 +79,70 @@ class HomeFragment : Fragment() {
     private fun initListCity() {
         binding.rvHome.layoutManager = LinearLayoutManager(requireContext())
         adapter = HomeAdapter {
-
+            actionMoveToDetail(it)
         }
         binding.rvHome.adapter = adapter
     }
+
+    private fun actionMoveToDetail(city: CityModel) {
+        val bundle = bundleOf(EXTRA_CITY to city)
+        navController.navigate(R.id.action_homeFragment_to_detailFragment, bundle)
+    }
+
+    private fun visibleBottomNav() {
+        BottomNavigationUtils.visible(activity)
+    }
+
+    private fun initializeSearchBar() {
+
+        binding.apply {
+            sbCities.setOnClickListener {
+                sbCities.onActionViewExpanded()
+            }
+
+            sbCities.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+
+                    if (newText != null) {
+                        val newList = cities.filter {
+                            it.name.contains(newText, true)
+                        }
+                        adapter.set(newList)
+
+//                        showNoFavorite(false)
+                        if (newList.isNullOrEmpty()) {
+                            binding.incEmptyFaorite.tvTitle.setText("Keyword Tersebut Tidak Ada Dalam Database Kami")
+                            binding.incEmptyFaorite.root.visibility = View.VISIBLE
+                        } else {
+                            binding.incEmptyFaorite.root.visibility = View.GONE
+
+                        }
+
+                    }
+
+
+                    return true
+                }
+
+            })
+        }
+
+
+    }
+
+    private fun showNoFavorite(showIt: Boolean) {
+
+        if (showIt) {
+            binding.flEmptyFavorite.visibility = View.VISIBLE
+
+        } else {
+            binding.flEmptyFavorite.visibility = View.GONE
+
+        }
+    }
+
 }

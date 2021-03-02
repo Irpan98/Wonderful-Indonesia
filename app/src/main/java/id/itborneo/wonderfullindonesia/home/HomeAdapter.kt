@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import id.itborneo.wonderfullindonesia.R
 import id.itborneo.wonderfullindonesia.data.CityModel
 import id.itborneo.wonderfullindonesia.databinding.ItemCityBinding
 
@@ -46,7 +47,18 @@ class HomeAdapter(private val listener: (CityModel) -> Unit) :
                     .fit()
                     .centerCrop()
                     .into(ivImage)
+                clItem.setOnClickListener {
+                    listener(city)
+                }
+
+                if (city.isfavorite) {
+                    ivFavorite.setImageResource(R.drawable.ic_favorite_true)
+                } else {
+                    ivFavorite.setImageResource(R.drawable.ic_favorite)
+                }
             }
         }
     }
+
+
 }

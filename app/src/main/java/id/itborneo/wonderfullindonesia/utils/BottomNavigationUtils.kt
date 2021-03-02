@@ -12,8 +12,6 @@ import id.itborneo.wonderfullindonesia.R
 object BottomNavigationUtils {
 
 
-
-
     fun visible(activity: Activity?) {
         activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)?.visibility =
             View.VISIBLE
